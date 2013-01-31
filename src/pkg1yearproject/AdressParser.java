@@ -46,35 +46,38 @@ public class AdressParser {
         arr[3] = findFloor(m);
         arr[4] = findPostCode(m);
         arr[5] = findCity(str);
-        //Check to see if there are more than 1 matches for the Postcode
-        //        if(groupCount > 1) {
-        //            //Throw an exception if there are.
-        //            throw new NaughtyException("More than one postal code is not allowed.");
-        //        } else if (groupCount == 1){ //Else check to see if there is a match for the Postcode
-        //        if(m.find()){
-        //            arr[4] = m.group().replaceAll("\\D", ""); //Save the Postcode at index 4
-        //        }
-        //Change the pattern, Building number or Floor. A word-boundary followed by 1-3 digits followed by a word-boundary.
-        //        p = Pattern.compile("\\b\\d{1,3}\\b");
-        //        m.usePattern(p); // Apply the pattern to the matcher
-        //        if(m.find(0)){ //Assume that if there is a match the first match is the Building number
-        //            arr[1] = m.group().replaceAll("\\D", ""); // Assign the building number to index 1
-        //            if(m.find()){ //If there is another match assume it is the Floor
-        //                arr[3] = m.group().replaceAll("\\D", ""); // Assign the Floor to index 3
-        //            }
-        //            //Change the pattern to look for a single letter following a digit with zero or more whitespaces
-        //            p = Pattern.compile("\\d\\s*[a-z]\\b");
-        //            m.usePattern(p);
-        //            if(m.find(0)){ // Look for a match from the beginning
-        //                arr[2] = m.group().replaceAll("[^a-z]", ""); //Add the building letter to index 2
-        //            }
-        //        }
         
-        //        p = Pattern.compile("[a-zæøå]*(gade|vej|alle|allé|boulevard|vænget)");
-        //        m = p.matcher(sb.toString().trim());
-        //        if(m.find()){
-        //            arr[0] = m.group();
-        //        }
+        /************** old code ******************************************
+         * //Check to see if there are more than 1 matches for the Postcode
+         * //        if(groupCount > 1) {
+         * //            //Throw an exception if there are.
+         * //            throw new NaughtyException("More than one postal code is not allowed.");
+         * //        } else if (groupCount == 1){ //Else check to see if there is a match for the Postcode
+         * //        if(m.find()){
+         * //            arr[4] = m.group().replaceAll("\\D", ""); //Save the Postcode at index 4
+         * //        }
+         * //Change the pattern, Building number or Floor. A word-boundary followed by 1-3 digits followed by a word-boundary.
+         * //        p = Pattern.compile("\\b\\d{1,3}\\b");
+         * //        m.usePattern(p); // Apply the pattern to the matcher
+         * //        if(m.find(0)){ //Assume that if there is a match the first match is the Building number
+         * //            arr[1] = m.group().replaceAll("\\D", ""); // Assign the building number to index 1
+         * //            if(m.find()){ //If there is another match assume it is the Floor
+         * //                arr[3] = m.group().replaceAll("\\D", ""); // Assign the Floor to index 3
+         * //            }
+         * //            //Change the pattern to look for a single letter following a digit with zero or more whitespaces
+         * //            p = Pattern.compile("\\d\\s*[a-z]\\b");
+         * //            m.usePattern(p);
+         * //            if(m.find(0)){ // Look for a match from the beginning
+         * //                arr[2] = m.group().replaceAll("[^a-z]", ""); //Add the building letter to index 2
+         * //            }
+         * //        }
+         * 
+         * //        p = Pattern.compile("[a-zæøå]*(gade|vej|alle|allé|boulevard|vænget)");
+         * //        m = p.matcher(sb.toString().trim());
+         * //        if(m.find()){
+         * //            arr[0] = m.group();
+         * //        }
+         ********************************************************************/
         
         //Check to see if there was atleast one match, return the array if there was
         for(String s : arr){
