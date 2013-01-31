@@ -12,7 +12,7 @@ import java.util.regex.*;
  */
 public class AdressParser {
     //TODO Test string, add parameter to parseAdress (String str) later
-    private static String str = "Elbagade 53, 2300 København S";
+    private static String str = "Elbagade i København S";
     
     /**
      * Parse a given adress string to split it into smaller components.
@@ -35,65 +35,157 @@ public class AdressParser {
         String[] arr = new String[6];
         //StringBuffer sb = new StringBuffer(); Not used atm.
         
-        //The first pattern to look for, Postcode. A word-boundary followed by 4 digits followed by a word-boundary
-        Pattern p = Pattern.compile("\\b\\d{4}\\b");
+        //Make a default pattern so a Matcher can be made.
+        Pattern p = Pattern.compile(" ");
         //Create the matcher using the input String
         Matcher m = p.matcher(str);
+        
+        arr[0] = findRoadName(str);
+        arr[1] = findHouseNumber(m);
+        arr[2] = findHouseLetter(m);
+        arr[3] = findFloor(m);
+        arr[4] = findPostCode(m);
+        arr[5] = findCity(str);
         //Check to see if there are more than 1 matches for the Postcode
         //        if(groupCount > 1) {
         //            //Throw an exception if there are.
         //            throw new NaughtyException("More than one postal code is not allowed.");
         //        } else if (groupCount == 1){ //Else check to see if there is a match for the Postcode
-        if(m.find()){
-            arr[4] = m.group().replaceAll("\\D", ""); //Save the Postcode at index 4
-        }
+        //        if(m.find()){
+        //            arr[4] = m.group().replaceAll("\\D", ""); //Save the Postcode at index 4
+        //        }
         //Change the pattern, Building number or Floor. A word-boundary followed by 1-3 digits followed by a word-boundary.
-        p = Pattern.compile("\\b\\d{1,3}\\b");
-        m.usePattern(p); // Apply the pattern to the matcher
-        if(m.find(0)){ //Assume that if there is a match the first match is the Building number
-            arr[1] = m.group().replaceAll("\\D", ""); // Assign the building number to index 1
-            if(m.find()){ //If there is another match assume it is the Floor
-                arr[3] = m.group().replaceAll("\\D", ""); // Assign the Floor to index 3
-            }
-            //Change the pattern to look for a single letter following a digit with zero or more whitespaces
-            p = Pattern.compile("\\d\\s*[a-z]\\b");
-            m.usePattern(p);
-            if(m.find(0)){ // Look for a match from the beginning
-                arr[2] = m.group().replaceAll("[^a-z]", ""); //Add the building letter to index 2
-            }
-        }
+        //        p = Pattern.compile("\\b\\d{1,3}\\b");
+        //        m.usePattern(p); // Apply the pattern to the matcher
+        //        if(m.find(0)){ //Assume that if there is a match the first match is the Building number
+        //            arr[1] = m.group().replaceAll("\\D", ""); // Assign the building number to index 1
+        //            if(m.find()){ //If there is another match assume it is the Floor
+        //                arr[3] = m.group().replaceAll("\\D", ""); // Assign the Floor to index 3
+        //            }
+        //            //Change the pattern to look for a single letter following a digit with zero or more whitespaces
+        //            p = Pattern.compile("\\d\\s*[a-z]\\b");
+        //            m.usePattern(p);
+        //            if(m.find(0)){ // Look for a match from the beginning
+        //                arr[2] = m.group().replaceAll("[^a-z]", ""); //Add the building letter to index 2
+        //            }
+        //        }
         
         //        p = Pattern.compile("[a-zæøå]*(gade|vej|alle|allé|boulevard|vænget)");
         //        m = p.matcher(sb.toString().trim());
         //        if(m.find()){
         //            arr[0] = m.group();
         //        }
-        String[] temparr = str.split(",|(\\si\\s)", 2);
-        for(int i = 0; i < temparr.length; i++){
-            String s = temparr[i];
-            if(s.matches("([a-zæøå ]*)gade|vej|alle|allé|boulevard|vænget|torv|plads") ||
-                    s.matches("\\b\\d{1,3}\\b")){
-                arr[0] = s.replaceAll("[^(a-zæøå )]", "");                
-            } else if(s.matches("\\b\\d{4}\\b")){
-                s = s.replaceAll("[^(a-zæøå )]", "");
-                if(!s.isEmpty()){
-                    arr[5] = s;
-                }
-            }
-        }
-        if(arr[0] == null && arr[5] == null){
-            arr[0] = temparr[0];
-            arr[5] = temparr[1];
-        }
+        
+        //Check to see if there was atleast one match, return the array if there was
         for(String s : arr){
             if(s != null){
                 return arr;
             }
         }
+        //Otherwise throw exception
         throw new NaughtyException("Couldn't understand your input.\nPlease try again using the following format:"
                 + "\n<Road name> <Building number> <Building letter> <Floor>, <Post code> <City>");
     }
     
+    private static String findHouseNumber(Matcher m){
+        String s = null; // The return string;
+        //The pattern, Building number or Floor. A non-digit followed by 1-3 digits followed by a non-digit.
+        Pattern p = Pattern.compile("\\D\\d{1,3}\\D");
+        m.usePattern(p); // Apply the pattern to the matcher
+        if(m.find(0)){ //Assume that if there is a match the first match is the Building number
+            s = m.group().replaceAll("\\D", ""); // Assign the building number s
+        }
+        return s;
+    }
     
-
+    private static String findHouseLetter(Matcher m) {
+        String s = null; // The return string
+        //The pattern to look for; a single letter following a digit with zero or more whitespaces
+        Pattern p = Pattern.compile("\\d\\s*[a-z]\\b");
+        m.usePattern(p);
+        if(m.find(0)){ // Look for a match from the beginning
+            s = m.group().replaceAll("[^a-z]", ""); //Add the building letter to the return string
+        }
+        return s;
+    }
+    
+    private static String findFloor(Matcher m) {
+        String s = null; // The return string;
+        //The pattern, Building number or Floor. A non-digit followed by 1-3 digits followed by a non-digit.
+        Pattern p = Pattern.compile("\\D\\d{1,3}\\D");
+        m.usePattern(p); // Apply the pattern to the matcher
+        if(m.find(0)){ //Assume that if there is a match the first match is the Building number
+            if(m.find()){ //If there is another match assume it is the Floor
+                s = m.group().replaceAll("\\D", ""); // Assign the Floor to the return string.
+            }
+        }
+        return s;
+    }
+    
+    private static String findPostCode(Matcher m){
+        String s = null; //The return string
+        //The pattern to look for, Postcode. A non-digit followed by 4 digits followed by a non-digit
+        Pattern p = Pattern.compile("\\D\\d{4}\\D");
+        m.usePattern(p);
+        if(m.find(0)){
+            s = m.group().replaceAll("\\D", ""); //Assign the postcode to the return string
+        }
+        return s;
+    }
+    
+    private static String findCity(String str) throws NaughtyException {
+        String s; //The return string
+        String[] arr = str.split("[,\\d]|(\\si\\s)", 2); //split the string at first comma, digit or " i "
+        //If the length of the array is 1 then I can't deduce which is road and which is city
+        //TODO Make a better regex so you don't have to throw exception.
+        if(arr.length == 1){
+            throw new NaughtyException("You have to use either a digit, a comma or \" i \" to seperate city from road ");
+        } else {
+            int index = -1; // The index in the array in which the city is found.
+            for(int i = 0; i<arr.length; i++){
+                //Attempt to guess if this part of the split contains the roadname.
+                if(Pattern.matches("([a-zæøå ]*)(gade|vej|allé|boulevard|vænget|torv|plads)", arr[i])){
+                    //If it does set cityindex to the opposite of the index which contains the roadname
+                    switch(i){
+                        case 0: index = 1;
+                        break;
+                        case 1: index = 0;
+                        break;
+                        default: break;
+                    }
+                }
+            }
+            //If couldn't guess which side contained the roadname assume that the "right hand" side contains city
+            if(index == -1){
+                index = 1;
+            }
+            s = arr[index].replaceAll("\\.", "");//Remove any possible dots
+            s = s.replaceAll("\\d\\s*[a-z]\\b", ""); // Remove any possible house letter
+            s = s.replaceAll("[^a-zæøå ]", "");//Remove any remaining chars that can't be part of a city in DK
+            return s.trim();
+        }
+    }
+    
+    private static String findRoadName(String str) throws NaughtyException {
+        String s; // The return string
+        String[] arr = str.split("[,\\d]|(\\si\\s)", 2); //split the string at first comma, digit or " i "
+        //If the length of the array is 1 then I can't deduce which is road and which is city
+        //TODO Make a better regex so you don't have to throw exception.
+        if(arr.length == 1){
+            throw new NaughtyException("You have to use either a digit, a comma or \" i \" to seperate city from road ");
+        } else {
+            int index = -1;
+            for(int i = 0; i<arr.length; i++){
+                //Attempt to guess if this part of the split contains the roadname.
+                if(Pattern.matches("([a-zæøå ]*)(gade|vej|allé|boulevard|vænget|torv|plads)", arr[i])){
+                    index = i;
+                }
+            }
+            if(index == -1){//If a match wasn't found then assume that the "left hand" is roadname
+                index = 0;
+            }
+            s = arr[index].replaceAll("[^a-zæøå ]", "");//Remove any char that can't be part of roadname
+            return s.trim();
+        }
+    }
 }
