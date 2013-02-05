@@ -11,5 +11,6 @@ package pkg1yearproject;
 public class GitTestClass {
     private int i;
     private int j;
+    private int h;
     
 }
