@@ -59,7 +59,7 @@ public class AdressParserTest {
                 String[] result = AdressParser.parseAdress(inputs[i]);
                 assertArrayEquals(expResults[i], result);
             } catch(NaughtyException e){
-                System.out.println("Error in test case: " + i);
+                System.out.println("Test case: " + i + " - threw NaughtyException - " + e.getMessage());
                 continue;
             }
 
