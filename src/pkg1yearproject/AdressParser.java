@@ -12,7 +12,7 @@ import java.util.regex.*;
  */
 public class AdressParser {
     //TODO Test string, add parameter to parseAdress (String str) later
-    private static String str = "Elbagade i København S";
+    //private static String str = "Elbagade i København S";
     
     /**
      * Parse a given adress string to split it into smaller components.
@@ -28,7 +28,7 @@ public class AdressParser {
      * @return String[] A String[] containing one or more of the components
      * @throws NaughtyException If the input String contains more than one Postcode or no components could be parsed.
      */
-    public static String[] parseAdress() throws NaughtyException{
+    public static String[] parseAdress(String str) throws NaughtyException{
         //Remove all th, tv and mf(and variations of these) aswell as making the entire String lower case and trimming it.
         str = str.replaceAll("(t\\.?(h|v)\\.?)|(m\\.?f\\.?)\\b", "").toLowerCase().trim();
         //The String[] to be returned.
@@ -163,7 +163,7 @@ public class AdressParser {
                 index = 1;
             }
             s = arr[index].replaceAll("\\.", "");//Remove any possible dots
-            s = s.replaceAll("\\d\\s*[a-z]\\b", ""); // Remove any possible house letter
+            s = s.replaceAll("^\\s*[a-z]\\b", ""); // Remove any possible house letter
             s = s.replaceAll("[^a-zæøå ]", "");//Remove any remaining chars that can't be part of a city in DK
             return s.trim();
         }
