@@ -9,5 +9,6 @@ package pkg1yearproject;
  * @author Marianne Merrild
  */
 public class GitTestClass {
+    private int i;
     
 }
