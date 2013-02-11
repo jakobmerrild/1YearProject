@@ -77,7 +77,7 @@ public class AdressParser {
      */
     public static String[] parseAdress(String str) throws NaughtyException{
         //Remove all th, tv and mf(and variations of these) aswell as making the entire String lower case and trimming it.
-        str = str.replaceAll("(t\\.?(h|v)\\.?)|(m\\.?f\\.?)\\b", "").toLowerCase().trim();
+        str = str.replaceAll("((t\\.?(h|v)\\.?)|(m\\.?f\\.?))\\b", "").toLowerCase().trim();
         //The String[] to be returned.
         String[] arr = new String[6];
         //StringBuffer sb = new StringBuffer(); Not used atm.
