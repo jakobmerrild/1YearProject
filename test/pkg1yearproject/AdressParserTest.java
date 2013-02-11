@@ -4,6 +4,7 @@
  */
 package pkg1yearproject;
 
+import java.nio.charset.Charset;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -43,13 +44,13 @@ public class AdressParserTest {
     public void testParseAdress() throws Exception {
         System.out.println("parseAdress");
         String[] inputs = new String[]{"Degnebakken",
-                                       "Test vej 4 b 2. th 5000 Odense", 
+                                       "Alsædtægten 4 b 2. th 5000 Odense", 
                                        "",
                                        "Elbagade i København S",   
                                        "København S, Elbagade"};
         String[][] expResults = new String[][]{
                                     {"degnebakken", null, null, null, null, null},
-                                    {"test vej", "4", "b", "2", "5000", "odense"},
+                                    {"alsædtægten", "4", "b", "2", "5000", "odense"},
                                     {null, null, null, null, null, null},
                                     {"elbagade", null, null, null, null, "københavn s"},
                                     {"elbagade", null, null, null, null, "københavn s"}
@@ -59,7 +60,7 @@ public class AdressParserTest {
                 String[] result = AdressParser.parseAdress(inputs[i]);
                 assertArrayEquals(expResults[i], result);
             } catch(NaughtyException e){
-                System.out.println("Error in test case: " + i);
+                System.out.println("Test case: " + i + " - threw NaughtyException - " + e.getMessage());
                 continue;
             }
 
