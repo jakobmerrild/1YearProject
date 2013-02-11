@@ -43,8 +43,6 @@ public class AdressParserTest {
     @Test
     public void testParseAdress() throws Exception {
         System.out.println("parseAdress");
-        System.out.println(Charset.defaultCharset());
-        System.out.println(AdressParser.getRoadNameRegex());
         String[] inputs = new String[]{"Degnebakken",
                                        "Alsædtægten 4 b 2. th 5000 Odense", 
                                        "",

@@ -6,8 +6,10 @@ package pkg1yearproject;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,15 +42,14 @@ public class AdressParser {
         String s = null; // The return string
         try {
             String fs = File.separator; // The filepath seperator for the platform
-            String filepath = "files" + fs + "road_names.txt"; // The filepath, platform independant.
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(filepath));
-            String bufferedString = bufferedReader.readLine(); // Read the first line
-            s = "(" + bufferedString + ")"; // Surround with () to make it a closed group
-            bufferedString = bufferedReader.readLine(); // Read next line
-            while(bufferedString != null){ //As long as the reader hasn't reached the end
-                s += "|(" + bufferedString + ")"; //Add the next roadname to the return string
-                bufferedString = bufferedReader.readLine();
-            }
+            String filepath = "files" + fs + "roadNameRegEx.txt"; // The filepath, platform independant.
+            FileInputStream fileInput = new FileInputStream(filepath);
+            InputStreamReader inputReader = new InputStreamReader(fileInput , "UTF-8");
+            BufferedReader bufferedReader = new BufferedReader(inputReader);
+            s = bufferedReader.readLine(); // Read the first line
+            
+            fileInput.close();
+            inputReader.close();
             bufferedReader.close(); //Close the reader.
             s = s.toLowerCase(); //Make the return string lowercase
         } catch (FileNotFoundException ex) {
