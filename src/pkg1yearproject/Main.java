@@ -19,10 +19,11 @@ public class Main {
     public static void main(String[] args) {
         try {
             // TODO code application logic here
-            String[] arr = AdressParser.parseAdress("Test vej 4 b 2. th 5000 Odense");
+            String[] arr = AdressParser.parseAdress("elbagade 4 b 2. th 5000 Odense");
             for(String s : arr) {
                 System.out.println(s);
             }
+            System.out.println(AdressParser.getRoadNameRegex());
         } catch (NaughtyException ex) {
             System.out.println(ex);
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);

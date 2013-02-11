@@ -4,7 +4,15 @@
  */
 package pkg1yearproject;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.*;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 /**
  *
@@ -13,6 +21,45 @@ import java.util.regex.*;
 public class AdressParser {
     //TODO Test string, add parameter to parseAdress (String str) later
     //private static String str = "Elbagade i København S";
+    
+    private static String roadNameRegex = initializeRoadNameRegex();
+    
+    public AdressParser(){
+        
+    }
+    
+    public static String getRoadNameRegex(){
+        return roadNameRegex;
+    }
+    /**
+     * Initialize the roadNameRegex field by reading the road_names.txt file.
+     * road_names.txt is located in files\road_name.txt
+     * @return String a regex pattern which contains all road names in DK
+     */
+    private static String initializeRoadNameRegex(){
+        String s = null; // The return string
+        try {
+            String fs = File.separator; // The filepath seperator for the platform
+            String filepath = "files" + fs + "road_names.txt"; // The filepath, platform independant.
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(filepath));
+            String bufferedString = bufferedReader.readLine(); // Read the first line
+            s = "(" + bufferedString + ")"; // Surround with () to make it a closed group
+            bufferedString = bufferedReader.readLine(); // Read next line
+            while(bufferedString != null){ //As long as the reader hasn't reached the end
+                s += "|(" + bufferedString + ")"; //Add the next roadname to the return string
+                bufferedString = bufferedReader.readLine();
+            }
+            bufferedReader.close(); //Close the reader.
+            s = s.toLowerCase(); //Make the return string lowercase
+        } catch (FileNotFoundException ex) {
+            //For debugging purposes
+            //System.out.println("File not found");
+            Logger.getLogger(AdressParser.class.getName()).log(Level.SEVERE, null, ex);
+            
+        } finally{
+            return s;
+        }
+    }
     
     /**
      * Parse a given adress string to split it into smaller components.
@@ -40,7 +87,7 @@ public class AdressParser {
         //Create the matcher using the input String
         Matcher m = p.matcher(str);
         
-        arr[0] = findRoadName(str);
+        arr[0] = findRoadName(m);
         arr[1] = findHouseNumber(m);
         arr[2] = findHouseLetter(m);
         arr[3] = findFloor(m);
@@ -170,8 +217,17 @@ public class AdressParser {
         }
     }
     
-    private static String findRoadName(String str) throws NaughtyException {
-        String s; // The return string
+    private static String findRoadName(Matcher m) throws NaughtyException {
+        String s = null; // The return string
+        //The pattern to look for, roadNameRegex
+        Pattern p = Pattern.compile(roadNameRegex);
+        m.usePattern(p);
+        if(m.find(0)){
+            s = m.group();
+        }
+        return s;
+        
+        /******* OLD CODE *****
         String[] arr = str.split("[,\\d]|(\\si\\s)", 2); //split the string at first comma, digit or " i "
         //If the length of the array is 1 then I can't deduce which is road and which is city
         //TODO Make a better regex so you don't have to throw exception.
@@ -190,6 +246,6 @@ public class AdressParser {
             }
             s = arr[index].replaceAll("[^a-zæøå ]", "");//Remove any char that can't be part of roadname
             return s.trim();
-        }
-    }
+        }**********/
+    } 
 }
