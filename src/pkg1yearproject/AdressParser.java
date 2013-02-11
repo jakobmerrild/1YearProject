@@ -43,14 +43,15 @@ public class AdressParser {
         try {
             String fs = File.separator; // The filepath seperator for the platform
             String filepath = "files" + fs + "roadNameRegEx.txt"; // The filepath, platform independant.
-            FileInputStream fileInput = new FileInputStream(filepath);
-            InputStreamReader inputReader = new InputStreamReader(fileInput , "UTF-8");
-            BufferedReader bufferedReader = new BufferedReader(inputReader);
+            FileInputStream fileInput = new FileInputStream(filepath); //Create FileInputStream from the file at filepath
+            InputStreamReader inputReader = new InputStreamReader(fileInput , "UTF-8"); //Create a reader with UTF-8 format
+            BufferedReader bufferedReader = new BufferedReader(inputReader); //Create buffered reader to read the string
             s = bufferedReader.readLine(); // Read the first line
-            
+            //Close the reader
             fileInput.close();
             inputReader.close();
-            bufferedReader.close(); //Close the reader.
+            bufferedReader.close();
+            //Reader closed
             s = s.toLowerCase(); //Make the return string lowercase
         } catch (FileNotFoundException ex) {
             //For debugging purposes

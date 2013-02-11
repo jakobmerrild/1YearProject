@@ -4,6 +4,9 @@
  */
 package pkg1yearproject;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,7 +19,8 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args){
+        
         try {
             // TODO code application logic here
             String[] arr = AdressParser.parseAdress("Alsædtægten 4 b 2. th 5000 Odense");
