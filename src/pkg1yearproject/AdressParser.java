@@ -163,7 +163,7 @@ public class AdressParser {
                 index = 1;
             }
             s = arr[index].replaceAll("\\.", "");//Remove any possible dots
-            s = s.replaceAll("^\\s*[a-z]\\b", ""); // Remove any possible house letter
+            s = s.replaceAll("^\\s*[a-z]", ""); // Remove any possible house letter
             s = s.replaceAll("[^a-zæøå ]", "");//Remove any remaining chars that can't be part of a city in DK
             return s.trim();
         }
