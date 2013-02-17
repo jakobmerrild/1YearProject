@@ -16,7 +16,7 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args){
-        
+
         try {
             // TODO code application logic here
             String[] arr = AdressParser.parseAdress("Alsædtægten 4 b 2. th 5000 Odense");
