@@ -28,7 +28,7 @@ public class Main {
                 System.out.println(s);
             }
           //DEBUG used to print the roadNameRegex from AdressParser.  
-          System.out.println(AdressParser.getRoadNameRegex());
+          System.out.println(AdressParser.getRoadNameRegex().length());
         } catch (NaughtyException ex) {
             System.out.println(ex);
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
