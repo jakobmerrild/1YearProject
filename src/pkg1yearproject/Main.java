@@ -3,10 +3,7 @@
  * and open the template in the editor.
  */
 package pkg1yearproject;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,18 +17,14 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args){
-        
-        try {
+        String input = "Alsædtægten 4 b 2. th 5000 Odense";
+ 
             // TODO code application logic here
-            String[] arr = AdressParser.parseAdress("Alsædtægten 4 b 2. th 5000 Odense");
-            for(String s : arr) {
-                System.out.println(s);
+            for(ArrayList<String> a : AdressParser.getInstance().parseAdress(input)) {
+                for(String s : a){
+                    System.out.println(s);
+                }
             }
-          //DEBUG used to print the roadNameRegex from AdressParser.  
-          System.out.println(AdressParser.getRoadNameRegex().length());
-        } catch (NaughtyException ex) {
-            System.out.println(ex);
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
     }
 }
