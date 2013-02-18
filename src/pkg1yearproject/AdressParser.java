@@ -48,8 +48,6 @@ public class AdressParser {
             BufferedReader bufferedReader = new BufferedReader(inputReader); //Create buffered reader to read the string
             s = bufferedReader.readLine(); // Read the first line
             //Close the reader
-            fileInput.close();
-            inputReader.close();
             bufferedReader.close();
             //Reader closed
             s = s.toLowerCase(); //Make the return string lowercase
