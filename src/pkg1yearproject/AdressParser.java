@@ -37,16 +37,17 @@ public class AdressParser {
     private AdressParser() throws IOException{
         //Regex based on data read by bReader. Input is files\reverseRoadNameRegEx.txt
         InputStreamReader iReader = new InputStreamReader(new FileInputStream("files" + File.separator + "reverseRoadNameRegEx.txt"), "UTF-8");
-        BufferedReader bReader = new BufferedReader(iReader);
-        
+        BufferedReader bReader = new BufferedReader(iReader);        
         String roadNameRegex = bReader.readLine();
+        
+        //Regex based on data read by bReader. Input is files\reverseCityNameRegEx.txt
+        iReader = new InputStreamReader(new FileInputStream("files" + File.separator + "reverseCityNameRegEx.txt"), "UTF-8");
+        bReader = new BufferedReader(iReader);
+        String cityRegex = bReader.readLine();
         bReader.close();
         
         // Regex finds 4 digits which are not preceded or followed by a digit
         String postCodeRegex = "(?<!\\d)\\d{4}(?!\\d)";
-        
-        //TODO Test regex, should be based on data
-        String cityRegex = "(københavn s)|(københavn)|(odense)|(brabrand)";
         
         // Regex finds 1-3 digits which are not preceded or followed by a digit
         String numberRegex = "(?<!\\d)\\d{1,3}(?![\\d.])";
@@ -99,6 +100,7 @@ public class AdressParser {
      */
     public ArrayList<ArrayList<String>> parseAdress(String input){
         
+        input = input.toLowerCase();        
         //Create the return array.
         ArrayList<ArrayList<String>> matches = new ArrayList<ArrayList<String>>(6);
         for(int i = 0; i < groupNames.length; i++){
@@ -352,3 +354,4 @@ public class AdressParser {
     //        }**********/
 //    }
 }
+

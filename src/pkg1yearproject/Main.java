@@ -4,9 +4,6 @@
  */
 package pkg1yearproject;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  *
  * @author Marianne Merrild
