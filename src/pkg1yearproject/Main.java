@@ -14,13 +14,16 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args){
-        String input = "Alsædtægten 4 b 2. th 5000 Odense";
+        String input = "Ole Borchs vej 20 2500 Valby københavn";
  
-            // TODO code application logic here
-            for(ArrayList<String> a : AdressParser.getInstance().parseAdress(input)) {
+            ArrayList<ArrayList<String>> output = AdressParser.getInstance().parseAdress(input);
+            for(int i = 0; i < output.size(); i++) {
+                ArrayList<String> a = output.get(i);
+                System.out.print(AdressParser.getGroupNames()[i] + ": ");
                 for(String s : a){
-                    System.out.println(s);
+                    System.out.print(s + " ");
                 }
+                System.out.println();
             }
 
     }

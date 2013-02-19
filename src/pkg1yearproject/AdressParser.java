@@ -23,12 +23,12 @@ public class AdressParser {
     private Pattern regexPattern; //The pattern used to parse an Adress.
     
     //An array holding the groupNames
-    private String[] groupNames = new String[]{"roadName",      //index 0
-                                               "number",        //index 1
-                                               "houseLetter",   //index 2
-                                               "floor",         //index 3
-                                               "postCode",      //index 4
-                                               "city"};         //index 5
+    private static String[] groupNames = new String[]{"roadName",      //index 0
+                                                      "number",        //index 1
+                                                      "houseLetter",   //index 2
+                                                      "floor",         //index 3
+                                                      "postCode",      //index 4
+                                                      "city"};         //index 5
     /**
      * Creates an instance of this class. A regex is generated for parsing adresses.
      * The regex is partly generated based on data files.
@@ -65,12 +65,12 @@ public class AdressParser {
          * The index of the groupNames[] should match the index in the return ArrayList for that particular group.
          */
         String patternString = 	"(?<" + groupNames[0] + ">" + roadNameRegex + 	")|" +
-                                "(?<" + groupNames[4] + ">" + postCodeRegex + 	")|" +
-                                "(?<" + groupNames[5] + ">" + cityRegex + 	")|" +
-                                "(?<" + groupNames[3] + ">" + floorRegex + 	")|" +
                                 "(?<" + groupNames[1] + ">" + numberRegex +	")|" +
-                                "(?<" + groupNames[2] + ">" + houseLetterRegex +")";
-        
+                                "(?<" + groupNames[2] + ">" + houseLetterRegex +")|" +
+                                "(?<" + groupNames[3] + ">" + floorRegex + 	")|" +
+                                "(?<" + groupNames[4] + ">" + postCodeRegex + 	")|" +
+                                "(?<" + groupNames[5] + ">" + cityRegex + 	")";
+          
         regexPattern = Pattern.compile(patternString);
     }
     /**
@@ -79,7 +79,7 @@ public class AdressParser {
      */
     public static AdressParser getInstance(){
         try{
-            if(instance == null) instance = new AdressParser();
+            if(instance == null){ instance = new AdressParser();}
         } catch (IOException e){
             //TODO How to handle the Exception?
         }
@@ -87,13 +87,13 @@ public class AdressParser {
     }
     /**
      * Parse an input string to retrieve all the adress information it contains.
-     * The results of the parsing will be returned as an ArrayList of ArrayList<String> based on the following indexes:
-     * Index 0: An ArrayList<String> with all the road name matches from the input
-     * Index 1: An ArrayList<String> with all the house number matches from the input
-     * Index 2: An ArrayList<String> with all the house letter matches from the input
-     * Index 3: An ArrayList<String> with all the floor matches from the input
-     * Index 4: An ArrayList<String> with all the post code matches from the input
-     * Index 5: An ArrayList<String> with all the city matches from the input
+     * The results of the parsing will be returned as an Array of ArrayList<String> based on the following indexes:
+     * Index 0: An ArrayList<String> with all matches for the regex in reverseRoadNameRegEx.txt
+     * Index 1: An ArrayList<String> with all matches for the regex (?<!\\d)\\d{1,3}(?![\\d.])
+     * Index 2: An ArrayList<String> with all matches for the regex (?<=\\D\\d{1,3}\\s{0,1})[a-z](?![a-zæøå])
+     * Index 3: An ArrayList<String> with all matches for the regex ((?<!\\d)\\d{1,3}(?=\\.))|(s\\.?t\\.?)
+     * Index 4: An ArrayList<String> with all matches for the regex (?<!\\d)\\d{4}(?!\\d)
+     * Index 5: An ArrayList<String> with all matches for the regex in reverseCityNameRegEg.txt
      * Note: Any of the above ArrayLists could be empty if there was no match found for the given group.
      * @param input The string to be parsed as an adress
      * @return An ArrayList<ArrayList<String>> with the results of the parsing
@@ -102,7 +102,7 @@ public class AdressParser {
         
         input = input.toLowerCase();        
         //Create the return array.
-        ArrayList<ArrayList<String>> matches = new ArrayList<ArrayList<String>>(6);
+        ArrayList<ArrayList<String>> matches = new ArrayList<>(6);
         for(int i = 0; i < groupNames.length; i++){
             matches.add(new ArrayList<String>());
         }
@@ -124,8 +124,14 @@ public class AdressParser {
         
         return matches;
     }
-    
-    
+    //TODO remove this when no longer needed.
+    /**
+     * For debugging purposes, get the group names for the indexes in the result of parseAdress
+     * @return A string[] with the group names
+     */
+    public static String[] getGroupNames(){
+        return groupNames;
+    }
     
     //
     //
