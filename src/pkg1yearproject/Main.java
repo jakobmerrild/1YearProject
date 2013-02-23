@@ -3,9 +3,7 @@
  * and open the template in the editor.
  */
 package pkg1yearproject;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+import java.util.ArrayList;
 /**
  *
  * @author Marianne Merrild
@@ -16,18 +14,17 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args){
-
-        try {
-            // TODO code application logic here
-            String[] arr = AdressParser.parseAdress("Alsædtægten 4 b 2. th 5000 Odense");
-            for(String s : arr) {
-                System.out.println(s);
+        String input = "Ole Borchs vej 20 2500 Valby københavn";
+ 
+            ArrayList<ArrayList<String>> output = AdressParser.getInstance().parseAdress(input);
+            for(int i = 0; i < output.size(); i++) {
+                ArrayList<String> a = output.get(i);
+                System.out.print(AdressParser.getGroupNames()[i] + ": ");
+                for(String s : a){
+                    System.out.print(s + " ");
+                }
+                System.out.println();
             }
-          //DEBUG used to print the roadNameRegex from AdressParser.  
-          System.out.println(AdressParser.getRoadNameRegex().length());
-        } catch (NaughtyException ex) {
-            System.out.println(ex);
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
     }
 }
