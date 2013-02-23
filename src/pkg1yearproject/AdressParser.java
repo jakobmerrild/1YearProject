@@ -8,14 +8,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.InputStreamReader;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.*;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
-
 /**
  *
  * @author Marianne Merrild
@@ -25,11 +21,7 @@ public class AdressParser {
     //private static String str = "Elbagade i København S";
     
     private static String roadNameRegex = initializeRoadNameRegex();
-    
-    public AdressParser(){
         
-    }
-    
     public static String getRoadNameRegex(){
         return roadNameRegex;
     }
@@ -247,7 +239,8 @@ public class AdressParser {
             }
             s = arr[index].replaceAll("[^a-zæøå ]", "");//Remove any char that can't be part of roadname
             return s.trim();
-        }**********/
+        }
+        **********/
     } 
 }
 
